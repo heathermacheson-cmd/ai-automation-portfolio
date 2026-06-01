@@ -10,7 +10,7 @@ This workflow automates onboarding and communication in a loyalty program; turns
 - **n8n** — workflow automation
 - **Google Sheets** — store inventory information
 - **Google Gemini** — communicates inventory numbers and alerts
-- **Jotform** - sets up a form that does basic validation.
+- **Jotform** - sets up a form that does basic validation. turns messy human input into structured, usable data
 - **Telegram** - makes errors visible and actionable; notifies team instantly of incorrect or incomplete submissions.
 
 ## How It Works
