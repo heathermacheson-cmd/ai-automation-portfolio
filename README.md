@@ -3,9 +3,10 @@ A collection of n8n workflows and AI automations.
 
 ## Projects
 | PROJECT | DESCRIPTION | TOOLS |
-| Table Booking Bot (./project-n8n-tableBookingBot) | Ensures reservation bookings are only added if a time slot is available | n8n, Gemini, GoogleSheets, Gmail |
 
-| Inventory Check (./project-n8n-inventoryCheck) | Automated Inventory Monitoring & Low Stock Alert System | n8n, Gemini, GoogleSheets, Gmail |
+| Table Booking Bot ![Project Overview](./project-n8n-tableBookingBot.png) | Ensures reservation bookings are only added if a time slot is available | n8n, Gemini, GoogleSheets, Gmail |
+
+| Inventory Check ![Project Overview](./project-n8n-inventoryCheck) | Automated Inventory Monitoring & Low Stock Alert System | n8n, Gemini, GoogleSheets, Gmail |
 
 | Feedback Automation (./project-n8n-reviewFeedback) | Reviews and Feedback automation for a bar and grill | n8n, GoogleSheets, Gemini, Gmail |
 
