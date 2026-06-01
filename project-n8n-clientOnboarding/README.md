@@ -1,7 +1,7 @@
 # Client Onboarding Automation
 
 ## What It Does
-Autoamtion that turns a first-time guest into a repeat visitor, or a new customer signup into real loyalty.
+This workflow automates onboarding and communication in a loyalty program; turns a first-time guest into a repeat visitor, or a new customer signup into real loyalty.
 
 ## Workflow Preview
 ![Workflow Overview](./workflow-screenshot-n8n-clientOnboarding.png)
