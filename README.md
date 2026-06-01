@@ -10,7 +10,7 @@ A collection of n8n workflows and AI automations.
 
 | Feedback Automation ![Project Overview](./project-n8n-reviewFeedback) | Reviews and Feedback automation for a bar and grill | n8n, GoogleSheets, Gemini, Gmail |
 
-| Order Metrics Notification ![Project Overview](./project-n8n-orderMetricsDiscord) | Real-time order tracking, structured data storage, and automated reporting | n8n, Apify, Discord, Gemini, GoogleSheets, Gmail |
+| ERP Order Metrics Notification ![Project Overview](./project-n8n-orderMetricsDiscord) | Real-time order tracking, structured data storage, and automated reporting | n8n, Apify, Discord, Gemini, GoogleSheets, Gmail |
 
 ## About
 ### Heather Acheson — Cybersecurity leader turned AI builder.
