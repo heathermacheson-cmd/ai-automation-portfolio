@@ -1,4 +1,4 @@
-# [Project Name]
+# [Order Metrics - Discord Chat]
 
 ## What It Does
 One or two sentences. Plain English — what problem does this workflow solve?
