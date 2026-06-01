@@ -13,6 +13,9 @@ A collection of n8n workflows and AI automations.
 | Order Metrics Notification ![Project Overview](./project-n8n-orderMetricsDiscord) | Real-time order tracking, structured data storage, and automated reporting | n8n, Apify, Discord, Gemini, GoogleSheets, Gmail |
 
 ## About
-Heather Acheson is a former cybersecurity executive, looking to enhance her career with AI workflow development skills and experience. She is currently specializing in workflow automation and is very familiar with challenges surrounding governance, risk, compliance, awareness, and privacy.
+### Heather Acheson — Cybersecurity leader turned AI builder.
+After years driving governance, risk, and compliance (GRC) strategy as a cybersecurity executive, I'm channeling that expertise into AI workflow development and automation. I build automated workflows with a security-first mindset, bringing deep fluency in governance, risk, compliance, security awareness, and privacy to the AI tools I create.
+
+Currently specializing in workflow automation — and exploring what happens when GRC discipline meets AI capability.
 
 
