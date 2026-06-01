@@ -20,7 +20,7 @@ This workflow automates onboarding and communication in a loyalty program; turns
 - Sends a PDF, guide, or program rules.
 - Reminds the client about bonuses and benefits.
 - Updates the client status during onboarding
-7.The CRM shows the client’s current stage, from new to in process to completed.
+7. The CRM shows the client’s current stage, from new to in process to completed.
 8. Notifies the team - The team is informed about:
 - New loyalty program members.
 - Data validation errors.
