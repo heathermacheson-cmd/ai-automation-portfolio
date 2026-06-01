@@ -1,4 +1,4 @@
-# Reviews and Feedback Web-scraping Automation
+# Reviews and Feedback Automation
 
 ## What It Does
 AI-powered feedback automation system using n8n and Google Gemini to find online reviews and structure them for proper notification and feedback. 
@@ -8,11 +8,11 @@ AI-powered feedback automation system using n8n and Google Gemini to find online
 
 ## Tools & Integrations
 - **n8n** — workflow automation
-- **[Tool 2]** — what it's used for here
-- **[Tool 3]** — what it's used for here
+- **Google Sheets and Gemini** — information storage and routing
+- **HTTP Request Webhook** - Sets up API key and auth credentials to update database with web data
 
 ## How It Works
-1.An HTTP Request scrapes reviews from Google Maps
+1. An HTTP Request scrapes reviews from Google Maps
 2. Any new reviews for the target create a new row added to Google Sheets
 3. The workflow analyzes the customer’s feedback, classifies it by category (question, problem, suggestion) and area (kitchen, delivery, service), then updates the sheet automatically. 
 4. Based on classification, the system routes notifications to the appropriate department via Gmail.
