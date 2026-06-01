@@ -6,7 +6,7 @@ AI-powered restaurant booking automation using n8n and Google Gemini. Customers 
 The system ensures bookings are only added if the time slot is available and never overwrites existing reservations.
 
 ## Workflow Preview
-![Workflow Overview](./workflow-screenshot.png)
+![Workflow Overview](./workflow-screenshot-n8n-tableBookingBot.png)
 
 ## Tools & Integrations
 - Chat trigger
