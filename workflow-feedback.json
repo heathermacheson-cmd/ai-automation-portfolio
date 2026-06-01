@@ -1,0 +1,817 @@
+{
+  "name": "Red Zone Bar and Grill Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f15c0f9b-de73-4757-add4-35d7fbd8cab1",
+              "name": "Timestamp",
+              "value": "={{ $json.Timestamp }}",
+              "type": "string"
+            },
+            {
+              "id": "e0c7a0a4-4cc2-4218-828d-452f71b3c6e4",
+              "name": "Name",
+              "value": "={{ $json.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "a4f4f0af-7e95-4fe2-bd12-bcb5e2bfda12",
+              "name": "Contact",
+              "value": "={{ $json.Contact }}",
+              "type": "string"
+            },
+            {
+              "id": "89abec89-6207-4e47-9c75-0f34b8082011",
+              "name": "Feedback",
+              "value": "={{ $json.Feedback }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {
+          "ignoreConversionErrors": true
+        }
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "c5492bf3-08ce-4213-918b-03f628be331a",
+      "name": "Extract Data"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Task:\nAnalyze the customer’s feedback and determine (1) its category and (2) the relevant business area (Daily Bean Cafe).\n\nInput:\nFeedback: {{ $json.Feedback }}\n\nValid Categories:\n- question\n- problem\n- suggestion\n- other\n- unknown, if the feedback is missing, empty, irrelevant, or cannot be interpreted\n\nValid Areas:\n- kitchen\n- delivery\n- service\n- other\n- unknown, if the feedback is missing, empty, irrelevant, or cannot be interpreted\n\nInstructions:\n- NEVER create new labels, If unsure → set \"other\"\n- First validate that the feedback text is meaningful (not empty, null, too short to interpret, or containing only non-informative content).\n- If feedback is valid, classify it into one category and one area from the provided lists.\n- If classification is not possible, use the fallback \"unknown\" for the unassignable part(s).\n- Base your decision strictly on the content of the feedback.\n",
+        "hasOutputParser": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        416,
+        0
+      ],
+      "id": "0896c61f-cdf6-439d-81d5-b3164c30737c",
+      "name": "AI Categorization"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.1-flash-lite",
+        "options": {
+          "maxOutputTokens": 2048,
+          "temperature": 0.4
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        272,
+        208
+      ],
+      "id": "1087c64f-0251-415b-96cf-870966808b00",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "XRzqtG8L6Q6SjUFa",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "schemaType": "manual",
+        "inputSchema": "{\n\"category\": \"question\",\n\"area\": \"kitchen\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.3,
+      "position": [
+        592,
+        208
+      ],
+      "id": "78262c37-39e4-4272-bc6b-bf067b453a36",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1le9s_Gb9NcuMoBmaYH4Mrt2YqHQ6ez4fMEX6bGBKFXs",
+          "mode": "list",
+          "cachedResultName": "Red Zone Bar and Grill Feedback ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1le9s_Gb9NcuMoBmaYH4Mrt2YqHQ6ez4fMEX6bGBKFXs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1701422629,
+          "mode": "list",
+          "cachedResultName": "Test Data - convert",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1tuYQZbY8Qq5RNwBpiS51smbgtJP4OaIQZjDxLBT_2wo/edit#gid=1701422629"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $('Append or update row in sheet').item.json.ID }}",
+            "Category": "={{ $json.Category }}",
+            "Area": "={{ $json.Area }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Contact",
+              "displayName": "Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Feedback",
+              "displayName": "Feedback",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Area",
+              "displayName": "Area",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Responsible",
+              "displayName": "Responsible",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "row_number",
+              "displayName": "row_number",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "number",
+              "canBeUsedToMatch": true,
+              "readOnly": true,
+              "removed": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        976,
+        0
+      ],
+      "id": "7a2ba7e2-13ba-4eca-9fc7-9d83e7a3c999",
+      "name": "Update Feedback Row",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "PhaWaNHhPjS8YxRy",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "cc7b8bba-f218-420d-9364-48b7477e107b",
+              "leftValue": "={{ $('Set Values').item.json.Category }}",
+              "rightValue": "=unknown",
+              "operator": {
+                "type": "string",
+                "operation": "equals"
+              }
+            },
+            {
+              "id": "acbeefc5-7a41-4bd8-960f-4aa85c1f2bc9",
+              "leftValue": "={{ $('Set Values').item.json.Area }}",
+              "rightValue": "=unknown",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "or"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1184,
+        0
+      ],
+      "id": "9fd456a3-b049-48f4-9dbb-d906b91f97cc",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "17c78234-7179-4e8e-9609-164e7f6f4727",
+                    "leftValue": "={{ $('Set Values').item.json.Area }}",
+                    "rightValue": "kitchen",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "kitchen"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f9d51ac8-c7b0-4a87-ba39-f387064f14fc",
+                    "leftValue": "={{ $('Set Values').item.json.Area }}",
+                    "rightValue": "service",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "service"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "6b84f1dd-a9c0-4115-b926-da20ef558ba7",
+                    "leftValue": "={{ $('Set Values').item.json.Area }}",
+                    "rightValue": "delivery",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "delivery"
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {
+          "fallbackOutput": "extra"
+        }
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1488,
+        96
+      ],
+      "id": "dc579702-5295-44f1-9227-c339d59948aa",
+      "name": "Route by Area"
+    },
+    {
+      "parameters": {
+        "sendTo": "<REDACTED_EMAIL>",
+        "subject": "New Review {{ $('Set Values').item.json.category }}",
+        "emailType": "text",
+        "message": "=Hi team,\nA new feedback came in:\n\nFeedback: {{ $('Extract Data').item.json.Feedback }}\nCategory: {{ $('Set Values').item.json.Category }}\nArea: {{ $('Set Values').item.json.Area }}\nTimestamp: {{ $('Extract Data').item.json.Timestamp }}\n\n– Daily Bean Feedback Agent",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1680,
+        -208
+      ],
+      "id": "79726f3f-1f8c-4c4d-a131-ec8016ae6265",
+      "name": "kitchen-message",
+      "webhookId": "6d94213e-0aaa-480a-b47b-361bb4f464a4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "RIt3Ylz5aZsWGIJL",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "<REDACTED_EMAIL>",
+        "subject": "=New Review {{ $('Set Values').item.json.Category }}",
+        "emailType": "text",
+        "message": "=Hi team,\nA new feedback came in:\n\nFeedback: {{ $('Extract Data').item.json.Feedback }}\nCategory: {{ $('Set Values').item.json.Category }}\nArea:{{ $('Set Values').item.json.Area }}\nTimestamp: {{ $('Extract Data').item.json.Timestamp }}\n\n– Daily Bean Feedback Agent",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1680,
+        -32
+      ],
+      "id": "a6ba1b25-f7d5-45ad-8d4d-71956c16e7c6",
+      "name": "service-message",
+      "webhookId": "88b025ff-ef7a-4012-9497-e7e47c3e9e48",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HbXQG2S3GKL80cSL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "<REDACTED_EMAIL>",
+        "subject": "=New Review {{ $('Set Values').item.json.Category }}",
+        "emailType": "text",
+        "message": "=Hi team, A new feedback came in:  Feedback: {{ $('Extract Data').item.json.Feedback }} Category: {{ $('Set Values').item.json.Category }} \nArea:{{ $('Set Values').item.json.Area }} \nTimestamp: {{ $('Extract Data').item.json.Timestamp }}  – Daily Bean Feedback Agent",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1680,
+        128
+      ],
+      "id": "f9ca1932-b7df-498d-844c-f38ff3c84e4a",
+      "name": "delivery-message",
+      "webhookId": "bbc83c5e-7e22-4062-9901-556b38b0bc3e",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HbXQG2S3GKL80cSL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "<REDACTED_EMAIL>",
+        "subject": "=New Review {{ $('Set Values').item.json.Category }}",
+        "emailType": "text",
+        "message": "=Hi team, A new feedback came in:  Feedback: {{ $('Extract Data').item.json.Feedback }} \nCategory: {{ $('Set Values').item.json.Category }}\nArea: {{ $('Set Values').item.json.Area }}\nTimestamp: {{ $('Extract Data').item.json.Timestamp }}  – Daily Bean Feedback Agent",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1680,
+        320
+      ],
+      "id": "81366004-5fa3-46af-b561-610e2a6ecf84",
+      "name": "fallback-message",
+      "webhookId": "fee993f3-c6ce-40f5-8e43-f758789c53a0",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "HbXQG2S3GKL80cSL",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ca453485-247a-4947-b74e-e5d411dbfb86",
+              "name": "Category",
+              "value": "={{ $json.output.category.toLowerCase() }}",
+              "type": "string"
+            },
+            {
+              "id": "4c8c009b-c597-47af-9681-172dde661abc",
+              "name": "Area",
+              "value": "={{ $json.output.area.toLowerCase() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        736,
+        0
+      ],
+      "id": "b095947e-4042-4a58-b7bf-0068114d0020",
+      "name": "Set Values"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "months",
+              "triggerAtDayOfMonth": 28
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        -32,
+        -256
+      ],
+      "id": "591366bb-cf47-4beb-8220-17b55ef7e2dc",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.apify.com/v2/actors/compass~google-maps-reviews-scraper/run-sync-get-dataset-items?token=<REDACTED_API_TOKEN>",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "{\n  \"language\": \"en\",\n  \"maxReviews\": 100,\n  \"personalData\": true,\n  \"placeIds\": [\n    \"https://www.google.com/search?q=red+zone+sports+grill&sca_esv=a5803e55cb45b4ee&rlz=1C1HKFL_enUS1212US1212&biw=1261&bih=609&sxsrf=ANbL-n5Nma0CoUzXKurq-L7gN8pmCZ1a3g%3A1780104372891&ei=tDwaauyLNr_AkPIPi4zDoAM&gs_ssp=eJzj4tVP1zc0TK_IKkk3LDI0YLRSNaiwMDdKMrM0MDRKTE01N0kxtzKoME5KM04xtUi1TDY0M7dITPESLUpNUajKz0tVKC7ILyopVkgvyszJAQBc9xed&oq=red+zone&gs_lp=Egxnd3Mtd2l6LXNlcnAiCHJlZCB6b25lKgIIADIOEC4YrwEYxwEYgAQYjgUyCBAAGIAEGLEDMgUQABiABDIFEAAYgAQyBRAuGIAEMgUQABiABDIFEAAYgAQyBRAAGIAEMgUQLhiABDIFEAAYgAQyHRAuGK8BGMcBGIAEGI4FGJcFGNwEGN4EGOAE2AEBSNu4AlAAWOOpAnAAeAGQAQCYAXSgAYoLqgEEMTQuM7gBAcgBAPgBAZgCFKACtOwBwgILEAAYgAQYigUYkQLCAhEQLhiABBiKBRiRAhjHARjRA8ICCxAuGIMBGLEDGIAEwgIREC4YgAQYsQMYgwEYxwEY0QPCAgsQABiABBixAxiDAcICEBAuGIAEGIoFGEMYsQMYgwHCAhcQLhiDARivARjHARiRAhixAxiABBiKBcICChAuGIAEGIoFGEPCAhAQABiABBiKBRhDGLEDGIMBwgILEC4YgAQYsQMYgwHCAgsQLhiABBiKBRiRAsICFBAuGIAEGIoFGJECGLEDGMcBGNEDwgIOEC4YgAQYxwEYrwEYjgXCAg0QLhiABBiKBRhDGLEDwgIIEC4YgAQYsQPCAhoQLhiABBiKBRiRAhiXBRjcBBjeBBjgBNgBAcICDhAuGIAEGIoFGJECGLEDwgIUEC4YgAQYigUYkQIYxwEYrwEYmAXCAg0QLhhDGLEDGIAEGIoFwgINEAAYgAQYigUYQxixA8ICHRAuGIAEGIoFGJECGLEDGJcFGNwEGN4EGOAE2AEBwgIIEC4YgAQY5QTCAgcQLhiABBgKwgIXEC4YgAQY5QQYlwUY3AQY3gQY4ATYAQHCAgwQLhiABBgKGAsYsQPCAgsQLhiABBjHARivAcICCRAAGIAEGAoYC8ICCxAuGK8BGMcBGIAEwgIGEAAYFhgewgIaEC4YrwEYxwEYgAQYlwUY3AQY3gQY4ATYAQHCAg4QLhiABBixAxjHARjRA8ICDhAuGIAEGIoFGLEDGIMBwgIQEC4YgAQYigUYQxjHARivAcICDhAAGIAEGIoFGJECGLEDwgIREC4YgAQYigUYkQIYxwEYrwHCAgoQABiABBiKBRhDmAMAugYGCAEQARgUkgcMMTMuNC43LTEuMC4yoAe08wGyBwQxMy40uAeIDMIHCDAuMi4xNi4yyAdwgAgB&sclient=gws-wiz-serp\"\n  ],\n  \"startUrls\": [\n    {\n      \"url\": \"https://www.google.com/maps/place/Red+Zone+Sports+Grill/@33.6535258,-112.2361535,17z/data=!3m2!4b1!5s0x872b681c1ebb1015:0x223ccfacd743550e!4m6!3m5!1s0x872b69012aee74d7:0x3bf3d58e9c1678ad!8m2!3d33.6535214!4d-112.2335732!16s%2Fg%2F11gxjtg1r1?entry=ttu&g_ep=EgoyMDI2MDUyNy4wIKXMDSoASAFQAw%3D%3D\"\n    }\n  ],\n  \"reviewsSort\": \"newest\",\n  \"reviewsOrigin\": \"all\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        176,
+        -256
+      ],
+      "id": "c2417a7e-1124-4688-b0e6-3c0a9480e9d2",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1le9s_Gb9NcuMoBmaYH4Mrt2YqHQ6ez4fMEX6bGBKFXs",
+          "mode": "list",
+          "cachedResultName": "Red Zone Bar and Grill Feedback ",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1le9s_Gb9NcuMoBmaYH4Mrt2YqHQ6ez4fMEX6bGBKFXs/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1701422629,
+          "mode": "list",
+          "cachedResultName": "Test Data - convert",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1le9s_Gb9NcuMoBmaYH4Mrt2YqHQ6ez4fMEX6bGBKFXs/edit#gid=1701422629"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "ID": "={{ $json.reviewerNumberOfReviews }}",
+            "Timestamp": "={{ $json.publishedAtDate }}",
+            "Feedback": "={{ $json.text }}"
+          },
+          "matchingColumns": [
+            "ID"
+          ],
+          "schema": [
+            {
+              "id": "ID",
+              "displayName": "ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Name",
+              "displayName": "Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Contact",
+              "displayName": "Contact",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Feedback",
+              "displayName": "Feedback",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Category",
+              "displayName": "Category",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Area",
+              "displayName": "Area",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Responsible",
+              "displayName": "Responsible",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        384,
+        -256
+      ],
+      "id": "fcafcc89-3044-415d-8c4e-f883f1d641d6",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "PhaWaNHhPjS8YxRy",
+          "name": "Google Sheets OAuth2 API"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Extract Data": {
+      "main": [
+        [
+          {
+            "node": "AI Categorization",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Categorization",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Categorization",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Categorization": {
+      "main": [
+        [
+          {
+            "node": "Set Values",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Feedback Row": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Route by Area",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route by Area": {
+      "main": [
+        [
+          {
+            "node": "kitchen-message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "service-message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "delivery-message",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "fallback-message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Values": {
+      "main": [
+        [
+          {
+            "node": "Update Feedback Row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append or update row in sheet": {
+      "main": [
+        [
+          {
+            "node": "Extract Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "99653aab-fd67-471d-96ac-106e8afdaaaa",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "834e8f271ef115c4c79120158af2be5f3e3db9aa911904c1ec9a03e4719aedf9"
+  },
+  "id": "54tgFFo5YSYR98mf",
+  "tags": []
+}
