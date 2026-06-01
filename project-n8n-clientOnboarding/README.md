@@ -7,21 +7,24 @@ This workflow automates onboarding and communication in a loyalty program; turns
 ![Workflow Overview](./workflow-screenshot-n8n-clientOnboarding.png)
 
 ## Tools & Integrations
-- 
+- **n8n** -
+- **Google Sheets and Gemini** - 
+- **Jotform** - sets up a form that does basic validation.
+- **Telegram** - Makes errors visible and actionable; notifies team instantly of incorrect or incomplete submissions.
+
 
 ## How It Works
-1. Trigger: Accepts loyalty program signups
-2. The client submits a form with their details, such as name and email.
-3. Validates the data - If required fields are missing or filled incorrectly, the system immediately notifies the team and stops the process.
-4. Adds the client to the CRM - The client is automatically created in the CRM with a loyalty program participant status.
-5. Sends a welcome message - The client instantly receives a welcome email or message without any manual work.
-6. Launches an onboarding message sequence. After scheduled delays, the system:
+1. Trigger: Jotform form accepts loyalty program signups and performs basic validation. 
+2. IF node identifies errors or incomplete submissions; Telegram immediately notifies the team and stops the process.
+3. If Jotform complete, system adds the client to the CRM with a loyalty program participant status.
+4. Sends a welcome message - The client instantly receives a welcome email or message
+5. Launches an onboarding message sequence. After scheduled delays, the system:
 - Explains how the loyalty program works.
 - Sends a PDF, guide, or program rules.
 - Reminds the client about bonuses and benefits.
 - Updates the client status during onboarding
-7. The CRM shows the client’s current stage, from new to in process to completed.
-8. Notifies the team - The team is informed about:
+6. The CRM shows the client’s current stage, from new to in process to completed.
+7. Notifies the team - The team is informed about:
 - New loyalty program members.
 - Data validation errors.
 - Successful onboarding completion.
@@ -49,6 +52,6 @@ Automated client onboarding is needed to:
 ## How to Use
 1. Download `workflow-clientOnboarding.json`
 2. In n8n, go to **Workflows → Import from File**
-3. Add your own credentials for GoogleSheets and Gemini
+3. Add your own credentials for GoogleSheets, Jotform, Telegram, and Gemini
 4. Activate and test
 
