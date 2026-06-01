@@ -7,11 +7,11 @@ This workflow automates onboarding and communication in a loyalty program; turns
 ![Workflow Overview](./workflow-screenshot-n8n-clientOnboarding.png)
 
 ## Tools & Integrations
-- **n8n** -
-- **Google Sheets and Gemini** - 
+- **n8n** — workflow automation
+- **Google Sheets** — store inventory information
+- **Google Gemini** — communicates inventory numbers and alerts
 - **Jotform** - sets up a form that does basic validation.
-- **Telegram** - Makes errors visible and actionable; notifies team instantly of incorrect or incomplete submissions.
-
+- **Telegram** - makes errors visible and actionable; notifies team instantly of incorrect or incomplete submissions.
 
 ## How It Works
 1. Trigger: Jotform form accepts loyalty program signups and performs basic validation. 
@@ -35,7 +35,7 @@ In a restaurant, client onboarding turns a new guest into a returning one. After
 - How they earn points or bonuses.
 - What rewards are available.
 - When and how they can use them.
-If this is unclear, the loyalty program fails. People sign up. Then they forget. 
+If this is unclear, the loyalty program fails. People sign up, then they forget. 
 
 Automated client onboarding is needed to:
 - Welcome the guest immediately.
