@@ -17,6 +17,7 @@ Multi-step onboarding automation that takes a new signup from form submission to
 - **n8n** — workflow automation
 - **Google Sheets** — store inventory information
 - **Google Gemini** — communicates inventory numbers and alerts
+- **HubSpot** - acts as a CRM
 - **Jotform** - sets up a form that does basic validation. turns messy human input into structured, usable data
 - **Telegram** - makes errors visible and actionable; notifies team instantly of incorrect or incomplete submissions.
 
