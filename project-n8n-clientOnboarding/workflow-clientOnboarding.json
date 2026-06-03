@@ -1,0 +1,553 @@
+{
+  "name": "clientOnboarding",
+  "nodes": [
+    {
+      "parameters": {
+        "form": "261516096219055"
+      },
+      "type": "n8n-nodes-base.jotFormTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "547c784e-88c3-49e3-9071-a8e772bc47b1",
+      "name": "Jotform Trigger",
+      "webhookId": "c3e65938-60c2-4be6-b335-1cd3c2e02f53",
+      "credentials": {
+        "jotFormApi": {
+          "id": "dMU11fa4po3yP1Uc",
+          "name": "JotForm account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0c92a097-85de-43ad-ac77-3f486ef742b8",
+              "leftValue": "={{ $json.Name.first }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "27a90a6b-4152-4cbb-be09-af8663cfc6b4",
+              "leftValue": "={{ $json.Email }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "cabc4d5b-36e7-4e10-8d15-a139f70dac1b",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "chatId": "-1004299124484",
+        "text": "=⚠️ Validation Error Detected! The incoming data is missing one or more required fields:  - Customer's first name: {{ $('Jotform Trigger').item.json.Name.first }} - Email: {{ $('Jotform Trigger').item.json.Email }} Please review the submitted data and take action.    📅 Timestamp: {{ new Date().toLocaleString() }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        416,
+        96
+      ],
+      "id": "542b23fc-3083-4687-aed0-6a7066603639",
+      "name": "Send Validation Error Alert",
+      "webhookId": "f348f090-c230-47a3-ac0b-64761b028424",
+      "credentials": {
+        "telegramApi": {
+          "id": "IrPWqw21KD5X8BjG",
+          "name": "Client Onboarding Message"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "email": "={{ $('Jotform Trigger').item.json.Email }}",
+        "additionalFields": {
+          "firstName": "={{ $('Jotform Trigger').item.json.Name.first }}",
+          "lastName": "={{ $('Jotform Trigger').item.json.Name.last }}"
+        },
+        "options": {
+          "resolveData": false
+        }
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        416,
+        -96
+      ],
+      "id": "a9488837-ff49-4de7-ab0d-0006649fa628",
+      "name": "Create or update a contact",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "WavHGuzRd7du8SEp",
+          "name": "HubSpot account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "-1004299124484",
+        "text": "=🚨 New customer onboarded: Full name: {{ $('Jotform Trigger').item.json.Name.first }} {{ $('Jotform Trigger').item.json.Name.last }} Email: {{ $('Jotform Trigger').item.json.Email }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        688,
+        -112
+      ],
+      "id": "b0d2721b-e2de-4d12-ba42-1502bedd735d",
+      "name": "Send Team Notification",
+      "webhookId": "42e641aa-8359-470f-8620-d75a9ba8d3cf",
+      "credentials": {
+        "telegramApi": {
+          "id": "Giss1qsp0A6HEeCe",
+          "name": "Telegram account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Jotform Trigger').item.json.Email }}",
+        "subject": "Welcome to Daily Bean VIP Loyalty Program",
+        "message": "👋 Welcome to Daily Bean VIP! You’re officially in.<br><br> As a member, you’ll get: <ul> <li>Priority reservations</li><li>Exclusive offers</li> <li>VIP-only surprises</li></ul>🎁 Your first reward is unlocked already - we’ll show you how to use it soon.|",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        656,
+        48
+      ],
+      "id": "94d5f7aa-32de-4c40-9bbf-60c754c3bea3",
+      "name": "Send a message",
+      "webhookId": "b6e9159b-495e-4b54-a095-42fc28bf7ad4",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "oyPRXszWib5ezqjM",
+          "name": "Gmail account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        864,
+        48
+      ],
+      "id": "648bcad4-d747-44ab-a752-7e816cacc81a",
+      "name": "Wait 2 Hours",
+      "webhookId": "a65138f5-3b09-43e9-a090-166720ac2223"
+    },
+    {
+      "parameters": {
+        "operation": "download",
+        "fileId": {
+          "__rl": true,
+          "value": "https://drive.google.com/file/d/1YOFDxSL0sR5Bw2wWFCaKrG-Q1NDWcIRZ/view?usp=sharing",
+          "mode": "url"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleDrive",
+      "typeVersion": 3,
+      "position": [
+        1072,
+        48
+      ],
+      "id": "1bcb5d06-2858-410e-8e6c-75b588b99cb8",
+      "name": "Download file",
+      "credentials": {
+        "googleDriveOAuth2Api": {
+          "id": "tZsxRUhPXkQ0CQF2",
+          "name": "Google Drive account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Jotform Trigger').item.json.Email }}",
+        "subject": "How Our Loyalty Program Works 🍽️",
+        "message": "Hi! Welcome to our loyalty program - we’re happy to have you with us.<br><br>|We’ve attached a short PDF guide that explains how the loyalty program works, how rewards are earned, and what benefits you can expect as a loyal guest.<br><br>📎 Please see the attached file: “How Our Loyalty Program Works”.<br><br>If you have any questions after reading the guide, simply reply to this email - we’re always happy to help.<br><br>See you soon,<br>Daily Bean",
+        "options": {
+          "appendAttribution": false,
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {}
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1280,
+        48
+      ],
+      "id": "e0a78df5-e3dd-47b3-a31d-4800987e6f04",
+      "name": "Send a message1",
+      "webhookId": "ce8e59b9-1aef-4367-9527-23c3d758919c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "RIt3Ylz5aZsWGIJL",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        640,
+        288
+      ],
+      "id": "111cbfaa-f42b-4e0c-87c3-bccc7c21c3c0",
+      "name": "Wait 1 Day",
+      "webhookId": "0be69f6f-8b85-4f1d-9a3a-74404d4d0a17"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Jotform Trigger').item.json.Email }}",
+        "subject": "Special Offer Just For You!",
+        "message": "Hi 👋,<br><br>|As one of our VIP guests, we’ve unlocked a special offer for you.<br><br>🍹 <b>Unlimited complimentary drinks</b><br>Available for a limited time during your visit.<br><br>Simply book using your priority access and mention your VIP status when you arrive.<br><br>We’ll take care of the rest.<br><br>- <b>Daily Bean Team</b> ☕✨",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        1056,
+        288
+      ],
+      "id": "8981b818-42fd-497f-86fc-4b24c7201449",
+      "name": "Send a message2",
+      "webhookId": "2e9a8ee4-0f73-4d48-8737-b378f55a2b04",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "RIt3Ylz5aZsWGIJL",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "email": "={{ $('Jotform Trigger').item.json.Email }}",
+        "additionalFields": {
+          "leadStatus": "IN_PROGRESS"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        848,
+        288
+      ],
+      "id": "a2606771-43e6-490e-925e-e339e6e45535",
+      "name": "Create or update a contact1",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "Q0BS1xv5qkx5Bq6o",
+          "name": "HubSpot OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1264,
+        288
+      ],
+      "id": "22ce2dae-07ff-48a0-a841-214e9b9a400f",
+      "name": "Wait 2 Days",
+      "webhookId": "61dc1c19-5c80-464a-8816-0bd271f46369"
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $('Jotform Trigger').item.json.Email }}",
+        "subject": "Your VIP Onboarding Is Complete",
+        "message": "=Hi {{ $('Jotform Trigger').item.json.Name.first }}👋,<br><br> Congratulations - your VIP onboarding is complete.<br><br>You’re officially one of our <b>VIP guests</b>.<br>You can now book a table using <b>priority access</b> at any time.<br><br>🎁 We’ve prepared a special gift for you.<br>It will be available within the next <b>7 days</b>, so we’d love to welcome you back soon.<br><br>Just mention your VIP status when booking or show this email on arrival.<br><br>See you soon,<br><b>Daily Bean Team</b> ☕✨",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        640,
+        496
+      ],
+      "id": "20810685-0226-4a30-942c-62bac1091726",
+      "name": "Send a message3",
+      "webhookId": "a3172f5f-4592-43dd-b8e0-baf6b73485f1",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "RIt3Ylz5aZsWGIJL",
+          "name": "Gmail OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "email": "={{ $('Jotform Trigger').item.json.Email }}",
+        "additionalFields": {
+          "leadStatus": "CONNECTED"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.hubspot",
+      "typeVersion": 2.2,
+      "position": [
+        1456,
+        432
+      ],
+      "id": "5a636b87-dedb-43d3-945a-6a403e0067f1",
+      "name": "Create or update a contact2",
+      "credentials": {
+        "hubspotOAuth2Api": {
+          "id": "Q0BS1xv5qkx5Bq6o",
+          "name": "HubSpot OAuth2 API"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "-1004299124484",
+        "text": "=Onboarding for  {{ $('Jotform Trigger').item.json.Name.first }} has finshed. Please prepare a gift. Email: {{ $('Jotform Trigger').item.json.Email }}",
+        "additionalFields": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        1200,
+        592
+      ],
+      "id": "3a05df2b-9035-4aa4-ada6-f4386381f3de",
+      "name": "Send a text message",
+      "webhookId": "a91ceb4a-d1cf-4427-81e0-2eabc2fc1c01",
+      "credentials": {
+        "telegramApi": {
+          "id": "cfGWuqJ2sETbwdUJ",
+          "name": "Client Onboarding Bot"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Jotform Trigger": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Create or update a contact",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Send Validation Error Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or update a contact": {
+      "main": [
+        [
+          {
+            "node": "Send Team Notification",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Wait 2 Hours",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 2 Hours": {
+      "main": [
+        [
+          {
+            "node": "Download file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download file": {
+      "main": [
+        [
+          {
+            "node": "Send a message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message1": {
+      "main": [
+        [
+          {
+            "node": "Wait 1 Day",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 1 Day": {
+      "main": [
+        [
+          {
+            "node": "Create or update a contact1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create or update a contact1": {
+      "main": [
+        [
+          {
+            "node": "Send a message2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message2": {
+      "main": [
+        [
+          {
+            "node": "Wait 2 Days",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 2 Days": {
+      "main": [
+        [
+          {
+            "node": "Send a message3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message3": {
+      "main": [
+        [
+          {
+            "node": "Create or update a contact2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "579a106c-9dfa-4b91-a636-a365631b9962",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "834e8f271ef115c4c79120158af2be5f3e3db9aa911904c1ec9a03e4719aedf9"
+  },
+  "id": "CQgKaDbqEHOZYodH",
+  "tags": []
+}
