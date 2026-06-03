@@ -1,7 +1,12 @@
 # Client Onboarding Automation
 
 ## What It Does
-This workflow automates onboarding and communication in a loyalty program; turns a first-time guest into a repeat visitor, or a new customer signup into real loyalty.
+This workflow automates onboarding and communication in a loyalty program; turns a first-time guest into a repeat visitor, or a new customer signup into real loyalty. Specifically, it:
+- Validates incoming data and stops broken inputs early
+- Handles errors in a controlled, predictable way
+- Delivers content in stages to keep users engaged
+- Works with binary data like PDFs inside automations
+- Tracks customer states inside a CRM
 
 ## Workflow Preview
 ![Workflow Overview](./workflow-screenshot-n8n-clientOnboarding.png)
