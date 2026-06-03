@@ -18,13 +18,16 @@ This workflow automates onboarding and communication in a loyalty program; turns
 2. IF node identifies errors or incomplete submissions; Telegram immediately notifies the team and stops the process.
 3. If Jotform complete, system adds the client to the CRM with a loyalty program participant status.
 4. Sends a welcome message - The client instantly receives a welcome email or message
-5. Launches an onboarding message sequence. After scheduled delays, the system:
-- Explains how the loyalty program works.
+5. Launches an onboarding message sequence.
+6. Wait node - pauses the workflow for a specific time
+7. Google Drive node - downloads the PDF file
+8. Gmail node
+- sends the email with the attachment - explains how the loyalty program works.
 - Sends a PDF, guide, or program rules.
 - Reminds the client about bonuses and benefits.
 - Updates the client status during onboarding
-6. The CRM shows the client’s current stage, from new to in process to completed.
-7. Notifies the team - The team is informed about:
+9. The CRM shows the client’s current stage, from new to in process to completed.
+10. Notifies the team - The team is informed about:
 - New loyalty program members.
 - Data validation errors.
 - Successful onboarding completion.
