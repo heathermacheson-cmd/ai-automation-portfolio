@@ -1,7 +1,9 @@
 # Client Onboarding Automation
 
 ## What It Does
-This workflow automates onboarding and communication in a loyalty program; turns a first-time guest into a repeat visitor, or a new customer signup into real loyalty. Specifically, it:
+Client onboarding is one of the highest-value touchpoints in any service business - and one of the most commonly neglected. This workflow triggers the moment someone submits a Jotform, validates their data, creates a HubSpot contact, sends a team notification via Telegram, delivers a welcome email with onboarding materials from Google Drive, waits for the right timing, and then follows up with the next step. Every part of the process runs automatically, with CRM status updated at each stage.
+
+Multi-step onboarding automation that takes a new signup from form submission to fully enrolled client - automatically. This workflow automates onboarding and communication in a loyalty program; turns a first-time guest into a repeat visitor, or a new customer signup into real loyalty. Specifically, it:
 - Validates incoming data and stops broken inputs early
 - Handles errors in a controlled, predictable way
 - Delivers content in stages to keep users engaged
@@ -37,19 +39,11 @@ This workflow automates onboarding and communication in a loyalty program; turns
 - Data validation errors.
 - Successful onboarding completion.
 
-## Use Case / Problem Solved
-In a restaurant, client onboarding turns a new guest into a returning one. After signup, the client needs to know:
-- How the loyalty program works.
-- How they earn points or bonuses.
-- What rewards are available.
-- When and how they can use them.
-If this is unclear, the loyalty program fails. People sign up, then they forget. 
+KEY FEATURES Jotform trigger - activates instantly on new form submission Data validation - checks submission quality before proceeding; sends error alert if invalid HubSpot CRM integration - creates and updates contact records automatically Telegram team notifications - alerts the team in real time when a new client signs up Timed email sequences - Gmail messages sent with Wait nodes controlling the right intervals Google Drive file delivery - automatically shares onboarding materials with new clients CRM status progression - updates contact stage at each milestone in the workflow
 
-Automated client onboarding is needed to:
-- Welcome the guest immediately.
-- Explain the rules clearly.
-- Send reminders and benefits at the right time.
-- Keep the restaurant team informed.
+## Use Case / Problem Solved
+BUSINESS VALUE: Manual onboarding is inconsistent - some clients get fast responses, others wait days. Important steps get skipped when the team is busy. This workflow makes onboarding identical for every client: immediate, structured, and professional - without anyone managing it manually.
+
 
 ## Files
 | File | Description |
