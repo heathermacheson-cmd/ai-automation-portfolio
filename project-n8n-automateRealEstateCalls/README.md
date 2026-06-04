@@ -15,7 +15,27 @@
 - **Telegram** - makes errors visible and actionable; notifies team instantly of incorrect or incomplete submissions.
 
 ## How It Works
-1. Trigger: 
+
+### Trigger: Workflow 1 – Live Call Logic 
+1. Webhook receives data from ElevenLabs during the call.
+2. IF node checks:
+- If user wants to sell → go to Seller path
+- Otherwise → Buyer path
+
+#### Seller Path
+- Create property in Airtable
+- Send team notification via Gmail
+- Respond to Webhook (AI confirms to caller)
+
+#### Buyer Path
+- AI Agent (Gemini) analyzes request
+- Uses Airtable tool to search properties
+- Returns availability result
+- Respond to Webhook (AI speaks answer)
+
+### Workflow 2 – Post-Call Logging
+1. Webhook 2 triggers when call ends 
+2. Saves call data (cost, etc.) to Airtable
 
 ## Use Case / Problem Solved
 
